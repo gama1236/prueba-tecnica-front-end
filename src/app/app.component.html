@@ -36,7 +36,9 @@
                     </div>
                     <div class="card_body">
                         <br />
-                        <button class="btn btn-info" id="btn-crear">crear</button>
+                        <button class="btn btn-info" id="btn-crear" (click)="create()">
+              crear
+            </button>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -69,10 +71,10 @@
 
                     <div class="card-body">
                         <button class="btn btn-info" (click)="createUser()">Guardar</button>
-                        <button class="btn btn-info space-in-button" (click)="updateUser()">
+                        <button class="btn btn-info space-in-button" [disabled]="disableButton" (click)="updateUser()">
               Editar
             </button>
-                        <button class="btn btn-info space-in-button" (click)="deleteUser()">
+                        <button class="btn btn-info space-in-button" [disabled]="disableButton" (click)="deleteUser()">
               Eliminar
             </button>
                         <hr />

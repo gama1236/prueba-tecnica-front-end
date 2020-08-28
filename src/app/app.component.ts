@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   finder: string;
   usuarios: User[];
   roles: Rol[];
+  disableButton: boolean;
   formUsuario = this.fb.group({
     id: [{ value: '', disabled: true }],
     nombre: ['', [Validators.required]],
@@ -45,14 +46,12 @@ export class AppComponent implements OnInit {
     });
   }
   getByName(): void {
-    if (this.finder === '') {
-      this.getAll();
+    if (this.finder === '' || this.finder === null) {
+      this.ngOnInit();
     } else {
       this.service.getByName(this.finder).subscribe((data) => {
         if (data.code === 200) {
           this.usuarios = data.value;
-        } else {
-          this.roles = [];
         }
       });
     }
@@ -83,13 +82,14 @@ export class AppComponent implements OnInit {
       },
       (error) => console.log(error)
     );
+    this.disableButton = false;
   }
 
   compareByName(rol1: Rol, rol2: Rol): boolean {
     return rol1 && rol2 ? rol1.nameRol === rol2.nameRol : rol1 === rol2;
   }
 
-  seleccionarUsuario(usuario: User) {
+  seleccionarUsuario(usuario: User): void {
     this.formUsuario.patchValue({
       id: usuario.userId,
       nombre: usuario.userName,
@@ -126,7 +126,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  deleteUser() {
+  deleteUser(): void {
     this.service.deleteUser(this.formUsuario.get('id').value).subscribe(
       (data) => {
         if (data.code === 200) {
@@ -140,8 +140,14 @@ export class AppComponent implements OnInit {
     );
   }
 
-  clearFields() {
+  clearFields(): void {
     this.finder = '';
     this.formUsuario.reset();
+    this.ngOnInit();
+  }
+
+  create(): void {
+    this.clearFields();
+    this.disableButton = true;
   }
 }
