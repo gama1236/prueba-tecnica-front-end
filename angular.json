@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "codesa-front-end"
+    }
+  },
+  "defaultProject": "codesa-front-end",
+  "cli": {
+    "analytics": false
+  }
 }
